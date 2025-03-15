@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat en Tiempo Real</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+
+    <div class="w-full max-w-md mx-auto bg-gray-800 rounded-xl shadow-lg p-6">
+        <h2 class="text-2xl font-semibold text-center mb-4">💬 Chat en Tiempo Real</h2>
+
+        <div id="messages" class="h-64 overflow-y-auto p-3 bg-gray-700 rounded-md">
+            <!-- Mensajes se insertarán aquí -->
+        </div>
+
+        <div class="flex items-center mt-4">
+            <input id="messageInput" type="text" placeholder="Escribe un mensaje..."
+                class="flex-1 p-2 rounded-md bg-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <button onclick="sendMessage()"
+                class="ml-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 transition-all duration-200 text-white rounded-md">
+                ➤
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const socket = io('http://localhost:3010'); // Conectar con el servidor
+
+        // Escuchar mensajes del servidor
+        socket.on('message', (msg) => {
+            const messagesDiv = document.getElementById('messages');
+            const newMessage = document.createElement('p');
+            newMessage.className = "bg-gray-600 text-white px-3 py-2 rounded-md my-1 w-fit";
+            newMessage.textContent = msg;
+            messagesDiv.appendChild(newMessage);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight; // Auto-scroll al último mensaje
+        });
+
+        // Enviar mensaje al servidor
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            if (input.value.trim()) {
+                socket.emit('message', input.value);
+                input.value = ''; // Limpiar el input después de enviar el mensaje
+            }
+        }
+    </script>
+</body>
+</html>
