@@ -2,20 +2,23 @@ const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
     host: 'localhost',
-    user: 'tu_usuario',
-    password: 'tu_contraseña',
-    database: 'tu_base_de_datos'
+    user: 'root',
+    password: 'Daiana01.',
+    database: 'mantenimiento_db',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
-const testConnection = async () => {
-    try {
-        await pool.getConnection();
-        console.log('Conexión a la base de datos establecida');
-        return true;
-    } catch (error) {
-        console.error('Error al conectar a la base de datos:', error);
-        return false;
-    }
-};
+pool.getConnection()
+    .then(connection => {
+        console.log('Base de datos conectada correctamente');
+        connection.release();
+    })
+    .catch(err => {
+        console.error('Error al conectar con la base de datos:', err);
+    });
 
-module.exports = { pool, testConnection };
+module.exports = {
+    pool
+};
