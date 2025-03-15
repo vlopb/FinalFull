@@ -1,93 +1,92 @@
-# Proyecto Diplomado FullStack
 
-Este repositorio contiene los ejercicios y proyectos desarrollados durante el Diplomado de FullStack. El proyecto principal es una API REST para la gestión de una biblioteca y un sistema de mantenimiento.
+## Endpoints API
 
-## Estructura del Proyecto
+### Mantenimientos
 
-### API REST de Biblioteca
-La API de biblioteca gestiona los siguientes recursos:
+- `GET /api/mantenimientos` - Obtener todos los mantenimientos
+- `GET /api/mantenimientos/:id` - Obtener un mantenimiento específico
+- `POST /api/mantenimientos` - Crear nuevo mantenimiento
+- `PUT /api/mantenimientos/:id` - Actualizar un mantenimiento
+- `DELETE /api/mantenimientos/:id` - Eliminar un mantenimiento
 
-- 📚 **Libros** (`biblioteca_libros.sql`)
-  - Gestión de inventario de libros
-  - Información detallada de cada libro
-  - Control de disponibilidad
+### Materiales Usados
 
-- 👥 **Usuarios** (`biblioteca_usuarios.sql`)
-  - Registro de usuarios
-  - Gestión de préstamos
-  - Control de multas
+- `GET /api/materiales` - Obtener todos los materiales
+- `GET /api/materiales/mantenimiento/:id` - Obtener materiales por mantenimiento
+- `POST /api/materiales` - Registrar nuevo material
+- `PUT /api/materiales/:id` - Actualizar material
+- `DELETE /api/materiales/:id` - Eliminar material
 
-- 📖 **Préstamos** (`biblioteca_prestamos.sql`)
-  - Sistema de préstamos
-  - Fechas de devolución
-  - Estado del préstamo
+### Fotos
 
-- ✍️ **Autores** (`biblioteca_autores.sql`)
-  - Información de autores
-  - Relación con libros
+- `GET /api/fotos` - Obtener todas las fotos
+- `GET /api/fotos/mantenimiento/:id` - Obtener fotos por mantenimiento
+- `POST /api/fotos` - Subir nueva foto
+- `PUT /api/fotos/:id` - Actualizar información de foto
+- `DELETE /api/fotos/:id` - Eliminar foto
 
-### Sistema de Mantenimiento
-Sistema para gestionar el mantenimiento de artefactos (`querydb.sql`):
+### Testimonios
 
-- 🔧 **Artefactos**
-  - Registro de equipos
-  - Ubicación y propietarios
-  - Historial de mantenimiento
+- `GET /api/testimonios` - Obtener todos los testimonios
+- `GET /api/testimonios/mantenimiento/:id` - Obtener testimonios por mantenimiento
+- `POST /api/testimonios` - Crear nuevo testimonio
+- `PUT /api/testimonios/:id` - Actualizar testimonio
+- `DELETE /api/testimonios/:id` - Eliminar testimonio
 
-- 🛠️ **Mantenimientos**
-  - Registro de servicios
-  - Control de costos
-  - Tiempo empleado
+## Ejemplos de Uso
 
-- 📸 **Fotos**
-  - Documentación visual
-  - Estados antes/después
+### Crear un nuevo mantenimiento
+```bash
+curl -X POST http://localhost:3010/api/mantenimientos \
+  -H "Content-Type: application/json" \
+  -d '{
+    "artefacto_id": 1,
+    "fecha": "2024-03-20",
+    "hora": "14:30:00",
+    "descripcion": "Mantenimiento preventivo",
+    "costo": 150.00,
+    "tiempo_empleado": 120
+  }'
+```
+
+### Actualizar un mantenimiento
+```bash
+curl -X PUT http://localhost:3010/api/mantenimientos/1 \
+  -H "Content-Type: application/json" \
+  -d '{
+    "descripcion": "Mantenimiento correctivo",
+    "costo": 200.00
+  }'
+```
+
+## Scripts Disponibles
+
+- `npm start` - Inicia el servidor en modo producción
+- `npm run dev` - Inicia el servidor en modo desarrollo con nodemon
+
+## Base de Datos
+
+El sistema utiliza MySQL con las siguientes tablas principales:
+- `mantenimientos`
+- `materiales_usados`
+- `fotos`
+- `testimonios`
 
 ## Tecnologías Utilizadas
 
-- Node.js
-- Express.js
-- MySQL
-- REST API
-
-## Configuración del Proyecto
-
-1. Instalar dependencias:
-```bash
-npm install
-```
-
-2. Configurar variables de entorno:
-```bash
-cp .env.example .env
-```
-
-3. Iniciar el servidor:
-```bash
-npm run dev
-```
-
-## Endpoints Principales
-
-### Biblioteca
-- GET /libros - Listar todos los libros
-- POST /libros - Crear nuevo libro
-- GET /usuarios - Listar usuarios
-- POST /prestamos - Registrar préstamo
-
-### Mantenimiento
-- GET /artefactos - Listar artefactos
-- POST /mantenimientos - Registrar mantenimiento
-- GET /fotos - Ver fotos de mantenimientos
+- Express.js - Framework web
+- MySQL2 - Cliente MySQL
+- Cors - Middleware para CORS
+- Nodemon - Herramienta de desarrollo
 
 ## Contribución
 
-Este es un proyecto educativo desarrollado como parte del Diplomado FullStack. Las contribuciones son bienvenidas mediante pull requests.
-
-## Autor
-
-[Tu Nombre]
+1. Fork el proyecto
+2. Crea tu rama de características (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
 
 ## Licencia
 
-Este proyecto es parte del Diplomado FullStack y está destinado únicamente para fines educativos. 
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
