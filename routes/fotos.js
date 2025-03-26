@@ -3,6 +3,17 @@ const cors = require('cors');
 const router = express.Router();
 const { pool } = require('../config/db');
 
+// Obtener todas las fotos
+router.get('/', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT * FROM fotos ORDER BY id DESC');
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Error al obtener fotos:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 router.get('/fotos', async (req, res) => {
     try {
         const [rows] = await pool.query('SELECT * FROM fotos');
@@ -23,23 +34,19 @@ router.get('/fotos/mantenimiento/:id', async (req, res) => {
 });
 
 
-router.post('/fotos', async (req, res) => {
-    try {
-        const { mantenimiento_id, url_foto, descripcion, tipo } = req.body;
-        const [result] = await pool.query(
-            'INSERT INTO fotos (mantenimiento_id, url_foto, descripcion, tipo) VALUES (?, ?, ?, ?)',
-            [mantenimiento_id, url_foto, descripcion, tipo]
-        );
-        res.status(201).json({
-            id: result.insertId,
-            mantenimiento_id,
-            url_foto,
-            descripcion,
-            tipo
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
+router.post('/', async (req, res) => {
+  const { url_foto, descripcion } = req.body;
+
+  try {
+    const result = await pool.query(
+      'INSERT INTO fotos (url_foto, descripcion) VALUES ($1, $2) RETURNING *',
+      [url_foto, descripcion]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error('Error al crear foto:', error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 

@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config();
 const app = express();
 
 // Maldito cors
@@ -14,6 +15,7 @@ const testimoniosRoutes = require('./routes/testimonios');
 const usuariosRoutes = require('./routes/usuarios');
 const generalRoutes = require('./routes/general');
 const artefactosRoutes = require('./routes/artefactos');
+const cloudinaryRoutes = require('./routes/cloudinary');
 
 // Usar las rutas
 app.use('/api', mantenimientosRoutes);
@@ -22,7 +24,8 @@ app.use('/api', fotosRoutes);
 app.use('/api', testimoniosRoutes);
 app.use('/api', usuariosRoutes);
 app.use('/api', generalRoutes);
-app.use('/api/artefactos', artefactosRoutes);
+app.use('/api', artefactosRoutes);
+app.use('/api', cloudinaryRoutes);
 
 // Puerto de la aplicación
 const PORT = process.env.PORT || 3010;
