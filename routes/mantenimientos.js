@@ -60,13 +60,15 @@ const normalizeEstado = (estado) => {
 
 router.post('/mantenimientos', async (req, res) => {
     try {
+        console.log('Datos recibidos:', req.body);
         const { artefacto_id, fecha, descripcion, estado } = req.body;
         const estadoNormalizado = normalizeEstado(estado);
-        
+        console.log('Estado normalizado:', estadoNormalizado);
         const [result] = await pool.query(
             'INSERT INTO mantenimientos (artefacto_id, fecha, descripcion, estado) VALUES (?, ?, ?, ?)',
             [artefacto_id, fecha, descripcion, estadoNormalizado]
         );
+        console.log('Resultado de la inserción:', result);
         res.status(201).json({
             id: result.insertId,
             artefacto_id,
@@ -75,6 +77,7 @@ router.post('/mantenimientos', async (req, res) => {
             estado: estadoNormalizado
         });
     } catch (error) {
+        console.error('Error en la inserción:', error);
         res.status(500).json({ error: error.message });
     }
 });
